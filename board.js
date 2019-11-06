@@ -21,7 +21,7 @@ class Board {
             new Cell(4, 3),
             new Cell(4, 4)
         ];
-        
+
         const cellWidth = 100;
         const cellHeigth = 100;
 
@@ -40,12 +40,12 @@ class Board {
             this.gameContext.canvasContext.beginPath();
             this.gameContext.canvasContext.lineWidth = '2';
             this.gameContext.canvasContext.strokeStyle = 'black';
-            this.gameContext.canvasContext.rect(cell.x, cell.y, cell.width, cell.height); 
+            this.gameContext.canvasContext.rect(cell.x, cell.y, cell.width, cell.height);
             this.gameContext.canvasContext.stroke();
         });
     }
 
     getCell(line, column) {
-        return this.cells.find(cell => cell.line === line && cell.column === column);
+        return this.cells.find(cell => cell.line === line && cell.column === column) || Cell.createAnEmptyObject();
     }
 }

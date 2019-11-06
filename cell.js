@@ -1,17 +1,25 @@
 class Cell {
-    constructor(line, column) {
-        this.line = line;
-        this.column = column;
-        this.x = this.y = this.width = this.height = 0;
-    }
+  constructor(line, column) {
+    this.line = line;
+    this.column = column;
+    this.x = this.y = this.width = this.height = 0;
+    this.doesNotExistInBoard = false;
+    this.isBlocked = false;
+  }
 
-    setPosition(x, y) {
-        this.x = x;
-        this.y = y;
-    }
+  static createAnEmptyObject() {
+    const cell = new Cell(-1, -1);
+    cell.doesNotExistInBoard = true;
+    return cell;
+  }
 
-    setSize(width, height) {
-        this.width = width;
-        this.height = height;
-    }
+  setPosition(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  setSize(width, height) {
+    this.width = width;
+    this.height = height;
+  }
 }

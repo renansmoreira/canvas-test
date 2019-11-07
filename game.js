@@ -1,8 +1,11 @@
 class Game {
   constructor(canvas) {
     this.gameContext = new GameContext(canvas);
-    this.board = new Board(this.gameContext);
-    this.robot = new Robot(this.gameContext, this.board.getCell(1, 1));
+    const board = new Board(this.gameContext);
+    const robot = new Robot(this.gameContext, board.getCell(1, 1));
+
+    this.gameContext.setBoard(board);
+    this.gameContext.setRobot(robot);
   }
 
   start() {
@@ -11,8 +14,8 @@ class Game {
 
   update() {
     this.clear();
-    this.board.update();
-    this.robot.update();
+    this.gameContext.board.update();
+    this.gameContext.robot.update();
   }
 
   clear() {
@@ -20,37 +23,8 @@ class Game {
   }
 
   sendInstructions(...movements) {
-    const instructionMap = {};
-    instructionMap[Movement.UP] = this.moveRobotUp;
-    instructionMap[Movement.DOWN] = this.moveRobotDown;
-    instructionMap[Movement.LEFT] = this.moveRobotLeft;
-    instructionMap[Movement.RIGHT] = this.moveRobotRight;
-
-    movements.forEach(movement => instructionMap[movement].apply(this, []));
-  }
-
-  moveRobotUp() {
-    const destinationCell = this.board.getCell(this.robot.currentPosition.line - 1, this.robot.currentPosition.column);
-    this.moveRobot(destinationCell);
-  }
-
-  moveRobotDown() {
-    const destinationCell = this.board.getCell(this.robot.currentPosition.line + 1, this.robot.currentPosition.column);
-    this.moveRobot(destinationCell);
-  }
-
-  moveRobotLeft() {
-    const destinationCell = this.board.getCell(this.robot.currentPosition.line, this.robot.currentPosition.column - 1);
-    this.moveRobot(destinationCell);
-  }
-
-  moveRobotRight() {
-    const destinationCell = this.board.getCell(this.robot.currentPosition.line, this.robot.currentPosition.column + 1);
-    this.moveRobot(destinationCell);
-  }
-
-  moveRobot(destinationCell) {
-    this.robot.moveTo(destinationCell);
+    const movementQueue = new MovementQueue(movements);
+    this.gameContext.robot.processMovements(movementQueue);
   }
 }
 

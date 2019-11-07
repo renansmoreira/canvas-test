@@ -17,8 +17,8 @@ class Robot {
   }
 
   update() {
-    this.isMoving = this.x === this.currentPosition.x
-      && this.y === this.currentPosition.y;
+    this.isMoving = this.x !== this.currentPosition.x
+      || this.y !== this.currentPosition.y;
 
     if (this.x !== this.currentPosition.x) {
       this.x = this.x > this.currentPosition.x
@@ -42,6 +42,50 @@ class Robot {
 
     this.sprite.update(this.x, this.y);
   }
+
+  processMovements(movementQueue) {
+    const instructionMap = {};
+    instructionMap[Movement.UP] = this.moveUp;
+    instructionMap[Movement.DOWN] = this.moveDown;
+    instructionMap[Movement.LEFT] = this.moveLeft;
+    instructionMap[Movement.RIGHT] = this.moveRight;
+
+    const makeMove = (movement) => {
+      setTimeout(() => {
+        if (this.isMoving)
+          return makeMove(movement);
+
+        instructionMap[movement].apply(this, []);
+
+        if (movementQueue.hasNext) {
+          makeMove(movementQueue.getNext());
+        }
+      }, 500);
+    }
+
+    makeMove(movementQueue.getNext());
+  }
+
+  moveUp() {
+    const destinationCell = this.gameContext.getCell(this.currentPosition.line - 1, this.currentPosition.column);
+    this.moveTo(destinationCell);
+  }
+
+  moveDown() {
+    const destinationCell = this.gameContext.getCell(this.currentPosition.line + 1, this.currentPosition.column);
+    this.moveTo(destinationCell);
+  }
+
+  moveLeft() {
+    const destinationCell = this.gameContext.getCell(this.currentPosition.line, this.currentPosition.column - 1);
+    this.moveTo(destinationCell);
+  }
+
+  moveRight() {
+    const destinationCell = this.gameContext.getCell(this.currentPosition.line, this.currentPosition.column + 1);
+    this.moveTo(destinationCell);
+  }
+
 
   moveTo(cell) {
     if (cell.doesNotExistInBoard)

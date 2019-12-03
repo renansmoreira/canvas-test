@@ -9,10 +9,15 @@
 <body>
     <canvas id="game" width="600" height="600"></canvas>
 
-    <button type="button" onclick="window.game.moveRobotUp()">Go up</button>
-    <button type="button" onclick="window.game.moveRobotDown()">Go down</button>
-    <button type="button" onclick="window.game.moveRobotLeft()">Go left</button>
-    <button type="button" onclick="window.game.moveRobotRight()">Go right</button>
+    <div id="currentInstructions"></div>
+
+    <button type="button" onclick="window.movementInput.addMovement(Movement.UP);">Go up</button>
+    <button type="button" onclick="window.movementInput.addMovement(Movement.DOWN);">Go down</button>
+    <button type="button" onclick="window.movementInput.addMovement(Movement.LEFT);">Go left</button>
+    <button type="button" onclick="window.movementInput.addMovement(Movement.RIGHT);">Go right</button>
+
+    <button type="button" onclick="window.game.sendInstructions();">Enviar</button>
+    <button type="button" onclick="window.movementInput.clear();">Limpar</button>
 
     <script src="gameContext.js"></script>
     <script src="cell.js"></script>
@@ -21,6 +26,7 @@
     <script src="robot.js"></script>
     <script src="board.js"></script>
     <script src="movement.js"></script>
+    <script src="movementInput.js"></script>
     <script src="game.js"></script>
     </script>
 </body>

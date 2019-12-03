@@ -86,7 +86,6 @@ class Robot {
     this.moveTo(destinationCell);
   }
 
-
   moveTo(cell) {
     if (cell.doesNotExistInBoard)
       return this.crash();

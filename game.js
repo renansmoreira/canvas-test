@@ -22,13 +22,16 @@ class Game {
     this.gameContext.clear();
   }
 
-  sendInstructions(...movements) {
-    const movementQueue = new MovementQueue(movements);
-    this.gameContext.robot.processMovements(movementQueue);
+  sendInstructions() {
+    this.gameContext.robot.processMovements(window.movementInput.getQueue());
   }
 }
 
 const canvas = document.querySelector('#game');
 window.game = new Game(canvas);
 window.game.start();
-window.game.sendInstructions(Movement.DOWN, Movement.DOWN, Movement.RIGHT, Movement.UP, Movement.RIGHT, Movement.LEFT, Movement.LEFT);
+
+window.movementInput = new MovementInput(window.game);
+window.movementInput.addMovements([Movement.DOWN, Movement.DOWN, Movement.RIGHT, Movement.UP, Movement.RIGHT, Movement.LEFT, Movement.LEFT, Movement.LEFT]);
+
+window.game.sendInstructions();

@@ -1,16 +1,29 @@
 class Robot {
   constructor(gameContext, startCell) {
+    this.idleSprite = new Sprite({
+      gameContext: gameContext,
+      spriteImage: 'sprites/idle_robot.png',
+      ticksPerFrame: 20,
+      numberOfFrames: 4,
+      width: 498,
+      height: 170
+    });
+
+    this.walkingSprite = new Sprite({
+      gameContext: gameContext,
+      spriteImage: 'sprites/walking_robot.png',
+      ticksPerFrame: 10,
+      numberOfFrames: 6,
+      width: 800,
+      height: 170,
+      repeat: true,
+      repeatAtIndex: 2
+    });
+
     this.gameContext = gameContext;
     this.speed = 10;
     this.isMoving = false;
-    this.sprite = new Sprite({
-      gameContext: gameContext,
-      spriteImage: 'sprites/coin.png',
-      ticksPerFrame: 4,
-      numberOfFrames: 10,
-      width: 440,
-      height: 40
-    });
+    this.sprite = this.idleSprite;
     this.currentPosition = startCell;
     this.x = startCell.x;
     this.y = startCell.y;
@@ -57,14 +70,16 @@ class Robot {
 
         instructionMap[movement].apply(this, []);
 
-        if (movementQueue.hasNext) {
+        if (movementQueue.hasNext)
           makeMove(movementQueue.getNext());
-        }
+        else
+          this.sprite = this.idleSprite;
       }, 500);
     }
 
+    this.sprite = this.walkingSprite;
     makeMove(movementQueue.getNext());
-  }
+75
 
   moveUp() {
     const destinationCell = this.gameContext.getCell(this.currentPosition.line - 1, this.currentPosition.column);

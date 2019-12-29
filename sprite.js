@@ -12,6 +12,9 @@ class Sprite {
     this.numberOfFrames = options.numberOfFrames;
     this.width = options.width;
     this.height = options.height;
+    this.repeat = options.repeat;
+    this.repeatAtIndex = options.repeatAtIndex;
+    this.repeating = false;
   }
 
   update(x, y) {
@@ -20,8 +23,15 @@ class Sprite {
     if (this.tickCount > this.ticksPerFrame) {
       this.tickCount = 0;
 
-      if (this.frameIndex < this.numberOfFrames - 1)
+      if (this.frameIndex < this.numberOfFrames - 1 && !this.repeating)
         this.frameIndex++;
+      else if (this.repeat) {
+        this.repeating = true;
+        this.frameIndex--;
+
+        if (this.frameIndex === this.repeatAtIndex)
+          this.repeating = false;
+      }
       else
         this.frameIndex = 0;
     }

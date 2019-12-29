@@ -22,8 +22,8 @@ class Board {
             new Cell(4, 4)
         ];
 
-        const cellWidth = 100;
-        const cellHeigth = 100;
+        const cellWidth = 175;
+        const cellHeigth = 175;
 
         this.cells.forEach(cell => {
             const x = cell.column * cellWidth;

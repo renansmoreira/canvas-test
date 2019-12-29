@@ -34,4 +34,4 @@ window.game.start();
 window.movementInput = new MovementInput(window.game);
 window.movementInput.addMovements([Movement.DOWN, Movement.DOWN, Movement.RIGHT, Movement.UP, Movement.RIGHT, Movement.LEFT, Movement.LEFT, Movement.LEFT]);
 
-window.game.sendInstructions();
+//window.game.sendInstructions();
